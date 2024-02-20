@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Response, Query
+from fastapi import FastAPI, HTTPException
 from pymongo import MongoClient
 from PyCharacterAI import Client
 import re
@@ -19,7 +19,7 @@ app = FastAPI(
         "email": "adityaraj6311@gmail.com",
         "url": "https://aditya-info.vercel.app/",
     },
-    swagger_ui_parameters={"defaultModelsExpandDepth": -1},
+    # swagger_ui_parameters={"defaultModelsExpandDepth": -1},
 )
 
 async def char_ai(token: str, character_id: str, unique_id: str, message: str) -> dict:
