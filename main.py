@@ -4,6 +4,7 @@ import os
 from PyCharacterAI import Client
 from pydantic import BaseModel
 from pymongo import MongoClient
+import uvicorn
 import re
 mongo_client = MongoClient('mongodb+srv://kazuha321:kazuha321@cluster0.oafdfob.mongodb.net/?retryWrites=true&w=majority')
 
