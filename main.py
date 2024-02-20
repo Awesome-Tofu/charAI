@@ -1,26 +1,18 @@
 from fastapi import FastAPI, HTTPException
-from pymongo import MongoClient
-from PyCharacterAI import Client
-import re
-import uvicorn
+from fastapi.responses import FileResponse
 import os
-
+from PyCharacterAI import Client
+from pydantic import BaseModel
+from pymongo import MongoClient
+import re
 mongo_client = MongoClient('mongodb+srv://kazuha321:kazuha321@cluster0.oafdfob.mongodb.net/?retryWrites=true&w=majority')
 
-app = FastAPI(
-    title="Tofu API Documentation",
-    version="1.0",
-    description="Just my API collection",
-    openapi_url="/api/v1/openapi.json",
-    redoc_url="/api/v1/redoc",
-    # docs_url=None,
-    contact={
-        "name": "Tofu",
-        "email": "adityaraj6311@gmail.com",
-        "url": "https://aditya-info.vercel.app/",
-    },
-    # swagger_ui_parameters={"defaultModelsExpandDepth": -1},
-)
+
+app = FastAPI()
+
+
+class Item(BaseModel):
+    item_id: int
 
 async def char_ai(token: str, character_id: str, unique_id: str, message: str) -> dict:
     db = mongo_client['char_ai']
@@ -50,6 +42,15 @@ async def char_ai(token: str, character_id: str, unique_id: str, message: str) -
         "reply": resp
     }
     return ren
+    
+@app.get("/")
+async def root():
+    return {"message": "Hello World"}
+
+
+@app.get('/favicon.ico', include_in_schema=False)
+async def favicon():
+    return FileResponse('favicon.ico')
 
 @app.get(
     "/char_ai/{token}/{character_id}/{unique_id}/{message}", tags=["AI"], summary="Generate AI Images"
@@ -69,7 +70,12 @@ async def character_ai(token: str, character_id: str, unique_id: str, message: s
         print(f"STATUS FALSE at output")
         raise HTTPException(status_code=404, detail="Something went wrong!")
 
-PORT = int(os.environ.get("PORT") or 7000)
 
-if __name__ == "__main__":
-    uvicorn.run("new:app", host="localhost", port=PORT, reload=True)
+@app.get("/items/")
+async def list_items():
+    return [{"item_id": 1, "name": "Foo"}, {"item_id": 2, "name": "Bar"}]
+
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return item
