@@ -1,1 +1,1 @@
-# charAI
+# charAI API
