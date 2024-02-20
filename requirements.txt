@@ -1,0 +1,5 @@
+fastapi[all]
+uvicorn[standard]
+git+https://github.com/awesome-tofu/pycharacterai.git
+pymongo
+requests
