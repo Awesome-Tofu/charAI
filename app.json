@@ -10,13 +10,6 @@
       "multi device",
       "whatsapp-web.js"
    ],
-   "env":{
-      "PORT":{
-         "description":"Leave it as default",
-         "value":"",
-         "required":false
-      }
-   },
    "buildpacks":[
       {
          "url":"heroku/python"
