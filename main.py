@@ -79,3 +79,9 @@ async def list_items():
 @app.post("/items/")
 async def create_item(item: Item):
     return item
+
+PORT = int(os.environ.get("PORT") or 8000)
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="localhost", port=PORT, reload=True)
+
